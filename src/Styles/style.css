@@ -1,0 +1,80 @@
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin:auto;
+    margin-top: 30px;
+    flex-direction: column;
+    
+}
+
+.ConteinerJogo{
+    width: 1100px;
+    height: 700px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.Lateral{
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.Lateral button{
+    background-color: #27AE60;
+    width: 200px;
+    height: 50px;
+}
+
+
+.Lateral p{
+    font-family: 'Roboto', sans-serif;
+    font-size: 33px;
+}
+
+.Conteiner-Respostas{
+    width: 1100px;
+    height: 200px;
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.Conteiner-letras{
+    display: grid;
+    grid-template-columns: repeat(13, 1fr);
+    grid-gap: 20px;
+    width: 800px;
+    height: 120px;
+}
+
+
+.Responder-Resposta{
+    height: 30px;
+    display: flex;
+    margin-top: 30px;
+}
+
+.Responder-Resposta button{
+    border-radius: 10px;
+    background-color: #E0ECF4;
+    color: blue;
+}
+
+.Conteiner-letras button{
+    background-color: #E0ECF4;
+    color: blue;
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+}
+
+.Chute{
+    margin-left: 30px;
+    margin-right: 10px;
+}
