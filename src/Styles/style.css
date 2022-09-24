@@ -83,3 +83,11 @@ body{
     background-color: #9FAAB5;
     color: #79818A;
 }
+
+.ganhou{
+    color: green;
+}
+
+.perdeu{
+    color: red;
+}

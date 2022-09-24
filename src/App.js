@@ -7,8 +7,9 @@ export default function App(){
 
     function ClicouLetra(letraSelecionada){
         setDesabilitado(false)
-        letrasClicadas.push(letraSelecionada)
-        console.log(letrasClicadas)
+        const novaLista = [...letrasClicadas,letraSelecionada]
+        setClicado(novaLista)
+        console.log(letraSelecionada)
     }
  
     
@@ -39,8 +40,7 @@ let numerosDeLetras;
 
 
     const alfabeto = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
-   
-    const letrasClicadas = ["b"]
+    const [letrasClicadas, setClicado] = useState([])
     const [Desabilitado, setDesabilitado] = useState(true)
     const [DesabilitadoBotaoPrincial, setPrincipal] = useState(false)
 
@@ -59,7 +59,7 @@ let numerosDeLetras;
             <ul className="Conteiner-letras">
                 {alfabeto.map((l, index) => 
                 <li>
-                        <button  className="botaoLetra" key={index}  onClick={() => ClicouLetra(l)} disabled={Desabilitado}>{l}</button>
+                        <button  className="botaoLetra" key={index}  onClick={() => ClicouLetra(l)} disabled={letrasClicadas.includes(l) ? true : false}>{l}</button>
                     </li>
                     )}
             </ul>
@@ -74,4 +74,3 @@ let numerosDeLetras;
     )
    
 }
-
