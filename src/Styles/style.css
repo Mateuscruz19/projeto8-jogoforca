@@ -78,3 +78,8 @@ body{
     margin-left: 30px;
     margin-right: 10px;
 }
+
+.botaoLetra:disabled{
+    background-color: #9FAAB5;
+    color: #79818A;
+}
