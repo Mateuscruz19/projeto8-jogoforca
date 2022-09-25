@@ -6,42 +6,56 @@ import forca3 from "./images/assets/forca3.png"
 import forca4 from "./images/assets/forca4.png"
 import forca5 from "./images/assets/forca5.png"
 import forca6 from "./images/assets/forca6.png"
+import forca7 from "./images/assets/forca6.png"
 
 import PalavrasArray from "./palavras"
 
-const Forcas = [forca0,forca1,forca2,forca3,forca4,forca5,forca6]
+const Forcas = [forca0,forca1,forca2,forca3,forca4,forca5,forca6,forca7]
 
 
 export default function App(){
 
     const[Contador, setContador] = useState(1)
     const[Imagem, setImagem] = useState(Forcas[0])
-
-
+    const alfabeto = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
+    const [letrasClicadas, setClicado] = useState([null])
+    const [Desabilitado, setDesabilitado] = useState(true)
+    const [DesabilitadoBotaoPrincial, setPrincipal] = useState(false)
+    const [Chute, setChute] = useState("")
+    const [cor, setCor] = useState("")
 
     function ClicouLetra(letraSelecionada){
         setDesabilitado(false)
         const novaLista = [...letrasClicadas,letraSelecionada]
         setClicado(novaLista)
-        console.log(letraSelecionada)
 
         if(Aleatorio.includes(letraSelecionada)){
             console.log("TEM")
-            console.log(Contador)
+            const posicaoLetraAcertada = Aleatorio.indexOf(letraSelecionada)
+            setSecreto(Secreto.fill(letraSelecionada,posicaoLetraAcertada,posicaoLetraAcertada+1))
+            console.log(posicaoLetraAcertada+1)
         } else{
             console.log("NAO TEM")
             setContador(Contador + 1)
             setImagem(Forcas[Contador])
         }
+
+        if(Contador === 6){
+            setCor("perdeu")
+            setSecreto(PalavraCerta)
+            setTimeout(alert("VOCE NAO COSEGUIU DESCOBRIR A PALAVRA :("),2000)
+            setDesabilitado(true)
+        }
     }
  
-    
+
+
 let numerosDeLetras;
 
     const [PalavraCerta, setPalavra] = useState("")
     const [Secreto, setSecreto] = useState("Bem vindo ao jogo da forca!")
     const [Aleatorio, setAletorio] = useState()
-    
+    const [PalavraFiltrada, setFiltrada] = useState([])
 
     function EscolherPalavra(){
         const palavraAleatoria = PalavrasArray[Math.floor(Math.random()*PalavrasArray.length)];
@@ -54,32 +68,37 @@ let numerosDeLetras;
         numerosDeLetras = ArrayLetras.length;
         Number(numerosDeLetras);
         const palavraAberta = [...ArrayLetras];
+        console.log(Secreto)
+        setFiltrada(Aleatorio)
         const palavraEscondida = palavraAberta.fill(" _ ")
         setSecreto(palavraEscondida)
-
+        console.log(PalavraFiltrada)
     }
     
+
+
 
     function ChutarResposta(){
          console.log(PalavraCerta)
          console.log(Chute)
-         if(PalavraCerta=== Chute){
+         if(PalavraCerta === Chute){
             setCor("ganhou")
             setSecreto(PalavraCerta)
+            setTimeout(alert("VOCE GANHOU O JOGO :D"),2000)
+            setDesabilitado(true)
+         }else if(Chute === "" || Chute === undefined){
+            alert("A palavra não é um nada certo?Tente mandar uma palavra pelomenos agora :D")
+            return
          } else{
             setCor("perdeu")
             setSecreto(PalavraCerta)
+            setTimeout(alert("VOCE NAO COSEGUIU DESCOBRIR A PALAVRA :("),2000)
+            setDesabilitado(true)
          }
       }
 
 
-    const alfabeto = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
-    const [letrasClicadas, setClicado] = useState([])
-    const [Desabilitado, setDesabilitado] = useState(true)
-    const [DesabilitadoBotaoPrincial, setPrincipal] = useState(false)
-    const [Chute, setChute] = useState("")
-    const [cor, setCor] = useState("")
-
+    
 
     return(
         <>
@@ -94,7 +113,7 @@ let numerosDeLetras;
             <ul className="Conteiner-letras">
                 {alfabeto.map((l, index) => 
                 <li>
-                        <button  className="botaoLetra" key={index}  onClick={() => ClicouLetra(l)} disabled={letrasClicadas.includes(l) ? true : false}>{l}</button>
+                        <button  className="botaoLetra" key={index}  onClick={() => ClicouLetra(l)} disabled={letrasClicadas.includes(l) ? true : Desabilitado}>{l}</button>
                     </li>
                     )}
             </ul>
