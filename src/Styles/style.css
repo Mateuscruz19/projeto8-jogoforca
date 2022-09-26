@@ -91,3 +91,12 @@ body{
 .perdeu{
     color: red;
 }
+
+.ConteinerLetras{
+    display: flex;
+}
+
+.Letras{
+    margin-left: 5px;
+}
+

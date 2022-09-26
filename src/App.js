@@ -23,13 +23,13 @@ export default function App(){
     const [letrasClicadas, setClicado] = useState([])
     const [Desabilitado, setDesabilitado] = useState(true)
     const [Chute, setChute] = useState("")
-    const [cor, setCor] = useState("")
+    const [cor, setCor] = useState("Letras")
     const [PalavraCerta, setPalavra] = useState("")
     const [Secreto, setSecreto] = useState("Bem vindo ao jogo da forca!")
     const [Aleatorio, setAletorio] = useState()
     const [Semacento, setSemAceto] = useState([])
-
-
+    const [comecouJogo, SetComecou] = useState(false)
+    const [terminouJogo, setTerminou] = useState(false)
 
 
 
@@ -41,15 +41,16 @@ export default function App(){
         if(Semacento.includes(letraSelecionada)){
             console.log("TEM")
             const posicaoLetraAcertada = Semacento.indexOf(letraSelecionada)
-            setSecreto(Secreto.fill(Aleatorio[posicaoLetraAcertada],posicaoLetraAcertada,posicaoLetraAcertada+1))
             console.log(posicaoLetraAcertada+1)
             console.log(Secreto)
-
+            console.log(letrasClicadas)
             if(Secreto.includes(" _ ") === false){
                 setCor("ganhou")
                 setSecreto(PalavraCerta)
                 setTimeout(alert("VOCE GANHOU O JOGO :D"),2000)
                 setDesabilitado(true)
+                SetComecou(false)
+                setTerminou(true)
             }
 
         } else{
@@ -63,6 +64,8 @@ export default function App(){
             setSecreto(PalavraCerta)
             setTimeout(alert("VOCE NAO COSEGUIU DESCOBRIR A PALAVRA :("),2000)
             setDesabilitado(true)
+            SetComecou(false)
+            setTerminou(true)
         }
     }
  
@@ -77,6 +80,7 @@ export default function App(){
         setSecreto("")
         setAletorio("")
         setSemAceto([])
+        SetComecou(false)
         let palavraAleatoria = "";
         palavraAleatoria = PalavrasArray[Math.floor(Math.random()*PalavrasArray.length)];
         setPalavra(palavraAleatoria)
@@ -88,10 +92,11 @@ export default function App(){
         const palavraAberta = [...ArrayLetras];
         const palavraEscondida = palavraAberta.fill(" _ ")
         setSecreto(palavraEscondida)
-        console.log(palavraAleatoria)
         const SemAcentoPalavra = palavraAleatoria.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
         setSemAceto(SemAcentoPalavra.split(""))
           console.log(SemAcentoPalavra)
+          console.log(ArrayLetras)
+          SetComecou(true)
     }
     
     
@@ -107,6 +112,8 @@ export default function App(){
             setSecreto(PalavraCerta)
             setTimeout(alert("VOCE GANHOU O JOGO :D"),2000)
             setDesabilitado(true)
+            SetComecou(false)
+            setTerminou(true)
          }else if(Chute === "" || Chute === undefined){
             alert("A palavra não é um nada certo?Tente mandar uma palavra pelomenos agora :D")
             return
@@ -115,6 +122,8 @@ export default function App(){
             setSecreto(PalavraCerta)
             setTimeout(alert("VOCE NAO COSEGUIU DESCOBRIR A PALAVRA :("),2000)
             setDesabilitado(true)
+            SetComecou(false)
+            setTerminou(true)
          }
       }
 
@@ -127,7 +136,8 @@ export default function App(){
            <img src={Imagem} alt="inicialforca" className="forca"/>
            <div className="Lateral">
            <button onClick={EscolherPalavra} >Escolha Palavra</button>
-            <p className={cor}>{Secreto}</p>
+           <div className={cor}>{comecouJogo && Semacento.map((l, index) => <p className="Letras">{letrasClicadas.includes(l) ? Aleatorio[index] : " _ "}</p>)}</div>
+           {terminouJogo && <p className={cor}>{PalavraCerta}</p>}
            </div>
         </div>
         <div className="Conteiner-Respostas">
@@ -147,5 +157,5 @@ export default function App(){
         </div>
         </>
     )
-   
+    // Secreto.fill(Aleatorio[posicaoLetraAcertada],posicaoLetraAcertada,posicaoLetraAcertada+1)
 }
