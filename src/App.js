@@ -16,7 +16,6 @@ const Forcas = [forca0,forca1,forca2,forca3,forca4,forca5,forca6,forca7]
 export default function App(){
 
 
-    let numerosDeLetras;
     const[Contador, setContador] = useState(1)
     const[Imagem, setImagem] = useState(Forcas[0])
     const alfabeto = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
@@ -30,8 +29,7 @@ export default function App(){
     const [Semacento, setSemAceto] = useState([])
     const [comecouJogo, SetComecou] = useState(false)
     const [terminouJogo, setTerminou] = useState(false)
-
-
+    const [Filtrado, setFiltrado] = useState([])
 
 
     function ClicouLetra(letraSelecionada){
@@ -41,10 +39,12 @@ export default function App(){
         if(Semacento.includes(letraSelecionada)){
             console.log("TEM")
             const posicaoLetraAcertada = Semacento.indexOf(letraSelecionada)
+            setFiltrado(Secreto.fill(letraSelecionada,posicaoLetraAcertada,posicaoLetraAcertada+1))
             console.log(posicaoLetraAcertada+1)
             console.log(Secreto)
             console.log(letrasClicadas)
-            if(Secreto.includes(" _ ") === false){
+
+            if(!Filtrado.includes("_")){
                 setCor("ganhou")
                 setSecreto(PalavraCerta)
                 setTimeout(alert("VOCE GANHOU O JOGO :D"),2000)
@@ -81,22 +81,26 @@ export default function App(){
         setAletorio("")
         setSemAceto([])
         SetComecou(false)
+        setTerminou(false)
         let palavraAleatoria = "";
         palavraAleatoria = PalavrasArray[Math.floor(Math.random()*PalavrasArray.length)];
         setPalavra(palavraAleatoria)
         const ArrayLetras = palavraAleatoria.split("");
         setAletorio(ArrayLetras)
         setDesabilitado(false);
-        numerosDeLetras = ArrayLetras.length;
-        Number(numerosDeLetras);
         const palavraAberta = [...ArrayLetras];
-        const palavraEscondida = palavraAberta.fill(" _ ")
+        const palavraEscondida = palavraAberta.fill("_")
         setSecreto(palavraEscondida)
         const SemAcentoPalavra = palavraAleatoria.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
         setSemAceto(SemAcentoPalavra.split(""))
-          console.log(SemAcentoPalavra)
           console.log(ArrayLetras)
           SetComecou(true)
+
+          const ArrayFiltrado = ArrayLetras.filter(function(este, i) {
+            return ArrayLetras.indexOf(este) === i;
+        })
+        const ArrayFiltradoEscondido = ArrayFiltrado.fill("_")
+        setFiltrado(ArrayFiltradoEscondido)
     }
     
     
@@ -136,7 +140,7 @@ export default function App(){
            <img src={Imagem} alt="inicialforca" className="forca"/>
            <div className="Lateral">
            <button onClick={EscolherPalavra} >Escolha Palavra</button>
-           <div className="Letras">{comecouJogo && Semacento.map((l, index) => <p className={cor}>{letrasClicadas.includes(l) ? Aleatorio[index] : "_"}</p>)}</div>
+           <div className="Letras">{comecouJogo && Semacento.map((l, index) => <p className={cor}>{letrasClicadas.includes(l)  ? Aleatorio[index] : "_"}</p>)}</div>
            {terminouJogo && <p className={cor}>{PalavraCerta}</p>}
            </div>
         </div>
@@ -151,7 +155,7 @@ export default function App(){
                        
             <div className="Responder-Resposta">
                 <p>Já Sei a pergunta!</p>
-                <input placeholder="Cuidado com os acentos" type="text" className="Chute"  onChange={(e) => setChute(e.target.value)}></input>
+                <input disabled={Desabilitado}  placeholder="Cuidado com os acentos" type="text" className="Chute"  onChange={(e) => setChute(e.target.value)}></input>
                 <button disabled={Desabilitado} onClick={ChutarResposta}>Chutar</button>
             </div>
         </div>
