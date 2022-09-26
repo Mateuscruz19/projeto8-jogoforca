@@ -15,25 +15,43 @@ const Forcas = [forca0,forca1,forca2,forca3,forca4,forca5,forca6,forca7]
 
 export default function App(){
 
+
+    let numerosDeLetras;
     const[Contador, setContador] = useState(1)
     const[Imagem, setImagem] = useState(Forcas[0])
     const alfabeto = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
-    const [letrasClicadas, setClicado] = useState([null])
+    const [letrasClicadas, setClicado] = useState([])
     const [Desabilitado, setDesabilitado] = useState(true)
-    const [DesabilitadoBotaoPrincial, setPrincipal] = useState(false)
     const [Chute, setChute] = useState("")
     const [cor, setCor] = useState("")
+    const [PalavraCerta, setPalavra] = useState("")
+    const [Secreto, setSecreto] = useState("Bem vindo ao jogo da forca!")
+    const [Aleatorio, setAletorio] = useState()
+    const [Semacento, setSemAceto] = useState([])
+
+
+
+
+
 
     function ClicouLetra(letraSelecionada){
         setDesabilitado(false)
         const novaLista = [...letrasClicadas,letraSelecionada]
         setClicado(novaLista)
-
-        if(Aleatorio.includes(letraSelecionada)){
+        if(Semacento.includes(letraSelecionada)){
             console.log("TEM")
-            const posicaoLetraAcertada = Aleatorio.indexOf(letraSelecionada)
-            setSecreto(Secreto.fill(letraSelecionada,posicaoLetraAcertada,posicaoLetraAcertada+1))
+            const posicaoLetraAcertada = Semacento.indexOf(letraSelecionada)
+            setSecreto(Secreto.fill(Aleatorio[posicaoLetraAcertada],posicaoLetraAcertada,posicaoLetraAcertada+1))
             console.log(posicaoLetraAcertada+1)
+            console.log(Secreto)
+
+            if(Secreto.includes(" _ ") === false){
+                setCor("ganhou")
+                setSecreto(PalavraCerta)
+                setTimeout(alert("VOCE GANHOU O JOGO :D"),2000)
+                setDesabilitado(true)
+            }
+
         } else{
             console.log("NAO TEM")
             setContador(Contador + 1)
@@ -49,32 +67,35 @@ export default function App(){
     }
  
 
-
-let numerosDeLetras;
-
-    const [PalavraCerta, setPalavra] = useState("")
-    const [Secreto, setSecreto] = useState("Bem vindo ao jogo da forca!")
-    const [Aleatorio, setAletorio] = useState()
-    const [PalavraFiltrada, setFiltrada] = useState([])
-
     function EscolherPalavra(){
-        const palavraAleatoria = PalavrasArray[Math.floor(Math.random()*PalavrasArray.length)];
+        setPalavra("")
+        setContador(1)
+        setImagem(Forcas[0])
+        setClicado([])
+        setChute("")
+        setCor("")
+        setSecreto("")
+        setAletorio("")
+        setSemAceto([])
+        let palavraAleatoria = "";
+        palavraAleatoria = PalavrasArray[Math.floor(Math.random()*PalavrasArray.length)];
         setPalavra(palavraAleatoria)
         const ArrayLetras = palavraAleatoria.split("");
         setAletorio(ArrayLetras)
-        console.log(ArrayLetras);
         setDesabilitado(false);
-        setPrincipal(true);
         numerosDeLetras = ArrayLetras.length;
         Number(numerosDeLetras);
         const palavraAberta = [...ArrayLetras];
-        console.log(Secreto)
-        setFiltrada(Aleatorio)
         const palavraEscondida = palavraAberta.fill(" _ ")
         setSecreto(palavraEscondida)
-        console.log(PalavraFiltrada)
+        console.log(palavraAleatoria)
+        const SemAcentoPalavra = palavraAleatoria.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+        setSemAceto(SemAcentoPalavra.split(""))
+          console.log(SemAcentoPalavra)
     }
     
+    
+   
 
 
 
@@ -105,7 +126,7 @@ let numerosDeLetras;
         <div className="ConteinerJogo">
            <img src={Imagem} alt="inicialforca" className="forca"/>
            <div className="Lateral">
-           <button onClick={EscolherPalavra} disabled={DesabilitadoBotaoPrincial}>Escolha Palavra</button>
+           <button onClick={EscolherPalavra} >Escolha Palavra</button>
             <p className={cor}>{Secreto}</p>
            </div>
         </div>
@@ -120,7 +141,7 @@ let numerosDeLetras;
                        
             <div className="Responder-Resposta">
                 <p>Já Sei a pergunta!</p>
-                <input  type="text" className="Chute"  onChange={(e) => setChute(e.target.value)}></input>
+                <input placeholder="Cuidado com os acentos" type="text" className="Chute"  onChange={(e) => setChute(e.target.value)}></input>
                 <button disabled={Desabilitado} onClick={ChutarResposta}>Chutar</button>
             </div>
         </div>
