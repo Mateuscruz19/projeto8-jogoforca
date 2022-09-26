@@ -136,7 +136,7 @@ export default function App(){
            <img src={Imagem} alt="inicialforca" className="forca"/>
            <div className="Lateral">
            <button onClick={EscolherPalavra} >Escolha Palavra</button>
-           <div className={cor}>{comecouJogo && Semacento.map((l, index) => <p className="Letras">{letrasClicadas.includes(l) ? Aleatorio[index] : " _ "}</p>)}</div>
+           <div className="Letras">{comecouJogo && Semacento.map((l, index) => <p className={cor}>{letrasClicadas.includes(l) ? Aleatorio[index] : "_"}</p>)}</div>
            {terminouJogo && <p className={cor}>{PalavraCerta}</p>}
            </div>
         </div>

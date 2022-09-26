@@ -97,6 +97,11 @@ body{
 }
 
 .Letras{
-    margin-left: 5px;
+    width: 100px;
+    height: 20px;
+    display: grid;
+    grid-template-columns: repeat(100, 1fr);
+    grid-gap: 20px;
+    
 }
 
