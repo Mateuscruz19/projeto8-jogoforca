@@ -137,10 +137,10 @@ export default function App(){
     return(
         <>
         <div className="ConteinerJogo">
-           <img src={Imagem} alt="inicialforca" className="forca"/>
+           <img data-identifier="game-image" src={Imagem} alt="inicialforca" className="forca"/>
            <div className="Lateral">
-           <button onClick={EscolherPalavra} >Escolha Palavra</button>
-           <div className="Letras">{comecouJogo && Semacento.map((l, index) => <p className={cor}>{letrasClicadas.includes(l)  ? Aleatorio[index] : "_"}</p>)}</div>
+           <button onClick={EscolherPalavra} data-identifier="choose-word">Escolha Palavra</button>
+           <div data-identifier="word" className="Letras">{comecouJogo && Semacento.map((l, index) => <p className={cor}>{letrasClicadas.includes(l)  ? Aleatorio[index] : "_"}</p>)}</div>
            {terminouJogo && <p className={cor}>{PalavraCerta}</p>}
            </div>
         </div>
@@ -148,15 +148,15 @@ export default function App(){
             <ul className="Conteiner-letras">
                 {alfabeto.map((l, index) => 
                 <li>
-                        <button  className="botaoLetra" key={index}  onClick={() => ClicouLetra(l)} disabled={letrasClicadas.includes(l) ? true : Desabilitado}>{l}</button>
+                        <button data-identifier="letter" className="botaoLetra" key={index}  onClick={() => ClicouLetra(l)} disabled={letrasClicadas.includes(l) ? true : Desabilitado}>{l}</button>
                     </li>
                     )}
             </ul>
                        
             <div className="Responder-Resposta">
                 <p>Já Sei a pergunta!</p>
-                <input disabled={Desabilitado}  placeholder="Cuidado com os acentos" type="text" className="Chute"  onChange={(e) => setChute(e.target.value)}></input>
-                <button disabled={Desabilitado} onClick={ChutarResposta}>Chutar</button>
+                <input data-identifier="type-guess" disabled={Desabilitado}  placeholder="Cuidado com os acentos" type="text" className="Chute"  onChange={(e) => setChute(e.target.value)}></input>
+                <button data-identifier="guess-button" disabled={Desabilitado} onClick={ChutarResposta}>Chutar</button>
             </div>
         </div>
         </>
